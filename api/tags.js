@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const tagsRouter = express.Router();
-const { getAllTags, getPostsByTagName } = require('../db');
+const { getAllTags, getPostsByTagName } = require("../db");
 
-tagsRouter.get('/', async (req, res, next) => {
+tagsRouter.get("/", async (req, res, next) => {
   try {
     const tags = await getAllTags();
     res.send({ tags });
@@ -11,7 +11,7 @@ tagsRouter.get('/', async (req, res, next) => {
   }
 });
 
-tagsRouter.get('/:tagName/posts', async (req, res, next) => {
+tagsRouter.get("/:tagName/posts", async (req, res, next) => {
   let { tagName } = req.params;
   tagName = decodeURIComponent(tagName);
 
