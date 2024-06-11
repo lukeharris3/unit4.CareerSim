@@ -62,9 +62,7 @@ async function getUserById(userId) {
         message: "A user with that id does not exist"
       }
     }
-
     user.posts = await getPostsByUser(userId);
-
     return user;
   } catch (error) {
     throw error;
