@@ -1,13 +1,13 @@
-require('dotenv').config();
+require("dotenv").config();
 const { PORT = 3230 } = process.env;
-const express = require('express');
+const express = require("express");
 const server = express();
-const path = require('path');
+const path = require("path");
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 server.use(bodyParser.json());
 
-const morgan = require('morgan');
+const morgan = require("morgan");
 server.use(morgan('dev'));
 
 server.use((req, res, next) => {
@@ -17,13 +17,13 @@ server.use((req, res, next) => {
   next();
 });
 
-const apiRouter = require('./api');
-server.use('/api', apiRouter);
-server.use(express.static(path.join(__dirname, 'public')));
+const apiRouter = require("./api");
+server.use("/api", apiRouter);
+server.use(express.static(path.join(__dirname, "public")));
 
-const { client } = require('./db');
+const { client } = require("./db");
 client.connect();
 
 server.listen(PORT, () => {
-  console.log(`The server is up on port ${PORT}`);
+  console.log("The server is up on port ${PORT}");
 });
