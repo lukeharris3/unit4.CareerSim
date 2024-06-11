@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const postsRouter = express.Router();
-const { requireUser } = require('./utils');
-const { createPost, getAllPosts, updatePost, getPostById } = require('../db');
+const { requireUser } = require("./utils");
+const { createPost, getAllPosts, updatePost, getPostById } = require("../db");
 
-postsRouter.get('/', async (req, res, next) => {
+postsRouter.get("/", async (req, res, next) => {
   try {
     const allPosts = await getAllPosts();
     const posts = allPosts.filter(post => post.active || (req.user && post.author.id === req.user.id));
@@ -25,7 +25,7 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
   }
 });
 
-postsRouter.patch('/:postId', requireUser, async (req, res, next) => {
+postsRouter.patch("/:postId", requireUser, async (req, res, next) => {
   const { postId } = req.params;
   const { title, content, tags } = req.body;
   const updateFields = { title, content, tags: tags.trim().split(/\s+/) };
@@ -36,14 +36,14 @@ postsRouter.patch('/:postId', requireUser, async (req, res, next) => {
       const updatedPost = await updatePost(postId, updateFields);
       res.send({ post: updatedPost });
     } else {
-      next({ name: 'UnauthorizedUserError', message: 'You cannot update a post that is not yours' });
+      next({ name: "UnauthorizedUserError", message: "You cannot update a post that is not yours" });
     }
   } catch ({ name, message }) {
     next({ name, message });
   }
 });
 
-postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
+postsRouter.delete("/:postId", requireUser, async (req, res, next) => {
   try {
     const { postId } = req.params;
     const post = await getPostById(postId);
@@ -52,7 +52,7 @@ postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
       await updatePost(postId, { active: false });
       res.send({ message: 'Post successfully deleted' });
     } else {
-      next({ name: 'UnauthorizedUserError', message: 'You cannot delete a post that is not yours' });
+      next({ name: "UnauthorizedUserError", message: "You cannot delete a post that is not yours" });
     }
   } catch ({ name, message }) {
     next({ name, message });
