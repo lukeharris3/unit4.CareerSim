@@ -9,7 +9,7 @@ const {
   getPostsByTagName,
   getAllTags,
   getUserById
-} = require('./index');
+} = require("./index");
 async function dropTables() {
   try {
     console.log("Starting to drop tables...");
